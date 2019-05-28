@@ -1,0 +1,705 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="小程序,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="自定义键盘功能这个键盘的样式可以自己随便定义，功能只能实现简单的数字字母或指定汉字的输入。不能输入拼音拼出汉字。 适用场景这个键盘的适用场景就是一些特定的需要输入指定字母或汉字的地方，比如输入用户手机号，再比如输入各个省的车牌号首位，再比如输入飞机航班号。写这个键盘的原因就是在支付宝小程序里调用键盘会出现很多问题。而且不好控制。自己写键盘不仅避免了很多坑，而且样式可以随便自己定义，方便。 实现原理">
+<meta name="keywords" content="小程序">
+<meta property="og:type" content="article">
+<meta property="og:title" content="小程序自己定义键盘">
+<meta property="og:url" content="http://yoursite.com/2019/03/14/XcxKeyboard/index.html">
+<meta property="og:site_name" content="ShallowLan Blog">
+<meta property="og:description" content="自定义键盘功能这个键盘的样式可以自己随便定义，功能只能实现简单的数字字母或指定汉字的输入。不能输入拼音拼出汉字。 适用场景这个键盘的适用场景就是一些特定的需要输入指定字母或汉字的地方，比如输入用户手机号，再比如输入各个省的车牌号首位，再比如输入飞机航班号。写这个键盘的原因就是在支付宝小程序里调用键盘会出现很多问题。而且不好控制。自己写键盘不仅避免了很多坑，而且样式可以随便自己定义，方便。 实现原理">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-05-28T07:06:16.150Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="小程序自己定义键盘">
+<meta name="twitter:description" content="自定义键盘功能这个键盘的样式可以自己随便定义，功能只能实现简单的数字字母或指定汉字的输入。不能输入拼音拼出汉字。 适用场景这个键盘的适用场景就是一些特定的需要输入指定字母或汉字的地方，比如输入用户手机号，再比如输入各个省的车牌号首位，再比如输入飞机航班号。写这个键盘的原因就是在支付宝小程序里调用键盘会出现很多问题。而且不好控制。自己写键盘不仅避免了很多坑，而且样式可以随便自己定义，方便。 实现原理">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/03/14/XcxKeyboard/">
+
+
+
+
+
+  <title>小程序自己定义键盘 | ShallowLan Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShallowLan Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love your life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            简介
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/14/XcxKeyboard/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shallow Lan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="http://m.qpic.cn/psb?/V10t2SrF1TPIh6/unFC4BEVb7WEFB5sxTUqoGZgnZt5XnmUo.qOnrS.mH4!/b/dL8AAAAAAAAA&bo=WgBaAAAAAAARBzA!&rf=viewer_4">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShallowLan Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">小程序自己定义键盘</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-03-14T11:41:29+08:00">
+                2019-03-14
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h4 id="自定义键盘功能"><a href="#自定义键盘功能" class="headerlink" title="自定义键盘功能"></a>自定义键盘功能</h4><p>这个键盘的样式可以自己随便定义，功能只能实现简单的数字字母或指定汉字的输入。不能输入拼音拼出汉字。</p>
+<h4 id="适用场景"><a href="#适用场景" class="headerlink" title="适用场景"></a>适用场景</h4><p>这个键盘的适用场景就是一些特定的需要输入指定字母或汉字的地方，比如输入用户手机号，再比如输入各个省的车牌号首位，再比如输入飞机航班号。写这个键盘的原因就是在支付宝小程序里调用键盘会出现很多问题。而且不好控制。自己写键盘不仅避免了很多坑，而且样式可以随便自己定义，方便。</p>
+<h4 id="实现原理"><a href="#实现原理" class="headerlink" title="实现原理"></a>实现原理</h4><p>实现原理其实非常简单，首先创建一个组件，这个组件里放的就是键盘的样式和一些回调方法。之后在你要用到输入的地方写一个<b>假键盘</b>, 注意不是写一个输入框（Not input）,就是写一个view，来实时显示用户输入的数据。</p>
+<p>在组件里编写一个数组，数组里存放键盘要输入的字，之后吧数组的内容遍历到键盘上，每一个按键加一个点击事件，点击的时候吧点击的内容传给调用他的父元素，父元素接受回调实时同步到自己写的假input上整个功能就实现了。其实很简单。</p>
+<p>基本功能算是实现了，如果想要优化的话，可以继续增加功能，比如长按粘贴，长按清楚建清空，根据安卓和IOS给与不同样式等等。</p>
+<h4 id="代码分享"><a href="#代码分享" class="headerlink" title="代码分享"></a>代码分享</h4><p>GitHub地址：  <a href="https://github.com/ShallowLan/keyboard" target="_blank" rel="noopener">keyboard</a></p>
+<p>一些基本的开关，回调会在GitHub上写清楚，这只是一个思路，没有局限性的，你可以在这基础上写出很多花样。</p>
+<h3 id="代码（需要代码请去github地址）"><a href="#代码（需要代码请去github地址）" class="headerlink" title="代码（需要代码请去github地址）:"></a>代码（需要代码请去github地址）:</h3><p>html：<br><figure class="highlight html"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br></pre></td><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">a:if</span>=<span class="string">"&#123;&#123;isShow&#125;&#125;"</span> <span class="attr">class</span>=<span class="string">"vehicle-panel"</span> <span class="attr">style</span>=<span class="string">"height:488rpx;bottom:&#123;&#123;bottom&#125;&#125;"</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--数字键盘  --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"number-panel-box"</span> <span class="attr">a:if</span>=<span class="string">"&#123;&#123;keyBoardType == 2&#125;&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"number-panel-row"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">'number-panel-row-key vehicle-hover'</span> <span class="attr">onTap</span>=<span class="string">'vehicleTap'</span> <span class="attr">a:for</span>=<span class="string">"&#123;&#123;keyPhone&#125;&#125;"</span> <span class="attr">data-value</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span> <span class="attr">key</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span>&gt;</span></span><br><span class="line">        &#123;&#123;item&#125;&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">onLongTap</span>=<span class="string">"longPressDelete"</span> <span class="attr">onTap</span>=<span class="string">'vehicleTap'</span> <span class="attr">class</span>=<span class="string">'number-panel-row-button vehicle-hover'</span> <span class="attr">data-value</span>=<span class="string">"delete"</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">image</span> <span class="attr">src</span>=<span class="string">'../../image/airport-card/delete.png'</span> <span class="attr">class</span>=<span class="string">'vehicle-en-button-delete'</span> <span class="attr">mode</span>=<span class="string">'aspectFit'</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">image</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="comment">&lt;!--英文键盘  --&gt;</span></span><br><span class="line">  <span class="tag">&lt;<span class="name">block</span> <span class="attr">class</span>=<span class="string">"letter-panel-box"</span> <span class="attr">a:if</span>=<span class="string">"&#123;&#123;keyBoardType == 1&#125;&#125;"</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"vehicle-panel-row"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">'vehicle-panel-row-button vehicle-panel-row-button-number vehicle-hover'</span></span></span><br><span class="line"><span class="tag">        <span class="attr">onTap</span>=<span class="string">'vehicleTap'</span> <span class="attr">a:for</span>=<span class="string">"&#123;&#123;keyNumber&#125;&#125;"</span> <span class="attr">data-value</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span> <span class="attr">key</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span>&gt;</span></span><br><span class="line">        &#123;&#123;item&#125;&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"vehicle-panel-row"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">'vehicle-panel-row-button vehicle-hover'</span></span></span><br><span class="line"><span class="tag">        <span class="attr">a:for</span>=<span class="string">"&#123;&#123;keyEnInput1&#125;&#125;"</span> <span class="attr">onTap</span>=<span class="string">'vehicleTap'</span> <span class="attr">data-value</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span> <span class="attr">key</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span>&gt;</span></span><br><span class="line">        &#123;&#123;item&#125;&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"vehicle-panel-row"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">'vehicle-panel-row-button vehicle-hover'</span></span></span><br><span class="line"><span class="tag">        <span class="attr">a:for</span>=<span class="string">"&#123;&#123;keyEnInput2&#125;&#125;"</span> <span class="attr">onTap</span>=<span class="string">'vehicleTap'</span> <span class="attr">data-value</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span> <span class="attr">key</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span>&gt;</span></span><br><span class="line">        &#123;&#123;item&#125;&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">onLongTap</span>=<span class="string">"longPressDelete"</span> <span class="attr">class</span>=<span class="string">'vehicle-panel-row-button vehicle-panel-row-button-img vehicle-hover'</span>&gt;</span></span><br><span class="line">        <span class="tag">&lt;<span class="name">image</span> <span class="attr">src</span>=<span class="string">'../../image/airport-card/delete.png'</span> <span class="attr">class</span>=<span class="string">'vehicle-en-button-delete'</span> <span class="attr">onTap</span>=<span class="string">'vehicleTap'</span> <span class="attr">data-value</span>=<span class="string">"delete"</span> <span class="attr">mode</span>=<span class="string">'aspectFit'</span>&gt;</span>删除<span class="tag">&lt;/<span class="name">image</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"vehicle-panel-row-last"</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">'vehicle-panel-row-button vehicle-panel-row-button-last vehicle-hover'</span></span></span><br><span class="line"><span class="tag">         <span class="attr">onTap</span>=<span class="string">'vehicleTap'</span> <span class="attr">a:for</span>=<span class="string">"&#123;&#123;keyEnInput3&#125;&#125;"</span> <span class="attr">data-value</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span> <span class="attr">key</span>=<span class="string">"&#123;&#123;item&#125;&#125;"</span>&gt;</span></span><br><span class="line">         &#123;&#123;item&#125;&#125;</span><br><span class="line">      <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">      <span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">'vehicle-panel-row-button vehicle-panel-ok'</span> <span class="attr">onTap</span>=<span class="string">'vehicleTap'</span> <span class="attr">data-value</span>=<span class="string">"ok"</span>&gt;</span></span><br><span class="line">        确认<span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">    <span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line">  <span class="tag">&lt;/<span class="name">block</span>&gt;</span></span><br><span class="line"><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br><span class="line"><span class="comment">&lt;!--适配iPhoneX的底条--&gt;</span></span><br><span class="line"><span class="tag">&lt;<span class="name">view</span> <span class="attr">class</span>=<span class="string">"adaptive"</span> <span class="attr">a:if</span>=<span class="string">"&#123;&#123;isAdaptive&#125;&#125;"</span>&gt;</span><span class="tag">&lt;/<span class="name">view</span>&gt;</span></span><br></pre></td></tr></table></figure></p>
+<p>js:</p>
+<figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br></pre></td><td class="code"><pre><span class="line">Component(&#123;</span><br><span class="line">  mixins: [],</span><br><span class="line">  data: &#123;</span><br><span class="line">    keyNumber: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="number">0</span>],</span><br><span class="line">    keyEnInput1: [<span class="string">'Q'</span>,<span class="string">'W'</span>,<span class="string">'E'</span>,<span class="string">'R'</span>,<span class="string">'T'</span>,<span class="string">'Y'</span>,<span class="string">'U'</span>,<span class="string">'I'</span>,<span class="string">'O'</span>,<span class="string">'P'</span>],</span><br><span class="line">    keyEnInput2: [<span class="string">'A'</span>,<span class="string">'S'</span>,<span class="string">'D'</span>,<span class="string">'F'</span>,<span class="string">'G'</span>,<span class="string">'H'</span>,<span class="string">'J'</span>,<span class="string">'K'</span>,<span class="string">'L'</span>],</span><br><span class="line">    keyEnInput3: [<span class="string">'Z'</span>,<span class="string">'X'</span>,<span class="string">'C'</span>,<span class="string">'V'</span>,<span class="string">'B'</span>,<span class="string">'N'</span>,<span class="string">'M'</span>],</span><br><span class="line">    keyPhone: [<span class="number">1</span>,<span class="number">2</span>,<span class="number">3</span>,<span class="number">4</span>,<span class="number">5</span>,<span class="number">6</span>,<span class="number">7</span>,<span class="number">8</span>,<span class="number">9</span>,<span class="string">"+"</span>,<span class="number">0</span>],</span><br><span class="line">    bottom:<span class="string">'0'</span></span><br><span class="line">  &#125;,</span><br><span class="line">  props: &#123;</span><br><span class="line">    isShow: <span class="literal">false</span>,</span><br><span class="line">    keyBoardType: <span class="number">1</span>,<span class="comment">//键盘样式 “1” 为数字英文键盘 “2” 为数字键盘</span></span><br><span class="line">    backgroundColor:<span class="string">"#fff"</span>,</span><br><span class="line">    onInputChange:<span class="function">(<span class="params">val</span>)=&gt;</span>&#123;&#125;,</span><br><span class="line">    onIputdelete:<span class="function"><span class="params">()</span>=&gt;</span>&#123;&#125;,</span><br><span class="line">    onInputOk:<span class="function"><span class="params">()</span>=&gt;</span>&#123;&#125;,</span><br><span class="line">    isAdaptive:<span class="literal">false</span>,</span><br><span class="line">    onLongPressDelete:<span class="function"><span class="params">()</span>=&gt;</span>&#123;&#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  didMount() &#123;</span><br><span class="line">    <span class="keyword">if</span>(<span class="keyword">this</span>.props.isAdaptive)&#123;</span><br><span class="line">      <span class="keyword">this</span>.setData(&#123;</span><br><span class="line">        bottom:<span class="string">'60rpx'</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;<span class="keyword">else</span>&#123;</span><br><span class="line">      <span class="keyword">this</span>.setData(&#123;</span><br><span class="line">        bottom:<span class="string">'0'</span></span><br><span class="line">      &#125;)</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;,</span><br><span class="line">  methods: &#123;</span><br><span class="line">    vehicleTap: <span class="function"><span class="keyword">function</span> (<span class="params">event</span>) </span>&#123;</span><br><span class="line">      <span class="comment">// console.log(event,'....')</span></span><br><span class="line">      <span class="keyword">let</span> val = event.target.dataset.value;</span><br><span class="line">      <span class="keyword">switch</span> (val)&#123;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'delete'</span>:</span><br><span class="line">          <span class="keyword">this</span>.props.onIputdelete(val);</span><br><span class="line">          <span class="keyword">this</span>.props.onInputChange(val);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">case</span> <span class="string">'ok'</span>:</span><br><span class="line">          <span class="keyword">this</span>.props.onInputOk(val);</span><br><span class="line">        <span class="keyword">break</span>;</span><br><span class="line">        <span class="keyword">default</span>:</span><br><span class="line">          <span class="keyword">this</span>.props.onInputChange(val);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;,</span><br><span class="line">    longPressDelete()&#123;</span><br><span class="line">      <span class="comment">//长按清除</span></span><br><span class="line">      <span class="keyword">this</span>.props.onLongPressDelete()</span><br><span class="line">    &#125;,</span><br><span class="line">  &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
+<p>css:</p>
+<figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br></pre></td><td class="code"><pre><span class="line"><span class="comment">/* 数字键盘样式 */</span></span><br><span class="line"><span class="selector-class">.number-panel-box</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">750</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.number-panel-row</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(210,213,219,0.90);</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">flex-wrap</span>: wrap;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">7</span>rpx;</span><br><span class="line">  <span class="attribute">padding-bottom</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.number-panel-row-key</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">7</span>rpx;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">5</span>rpx;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">220</span>rpx;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">94</span>rpx;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">94</span>rpx;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">10</span>rpx;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">1px</span> <span class="number">0</span> <span class="number">0</span> <span class="built_in">rgba</span>(0,0,0,0.35);</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">50</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.number-panel-row-button</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(210,213,219,0.90);</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">220</span>rpx;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">94</span>rpx;</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">10</span>rpx;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">7</span>rpx;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">5</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.number-panel-img</span> <span class="selector-tag">image</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">70</span>rpx;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">105</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="comment">/* 字母键盘样式 */</span></span><br><span class="line"><span class="selector-class">.vehicle-panel</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">100%</span>;</span><br><span class="line">  <span class="attribute">position</span>: fixed;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="number">1000</span>;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#D2D5DB</span>;</span><br><span class="line">  <span class="attribute">overflow</span>: hidden;</span><br><span class="line">  <span class="attribute">box-sizing</span>: border-box;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.letter-panel-box</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>:flex;</span><br><span class="line">  <span class="attribute">flex-direction</span>:column;</span><br><span class="line">  <span class="attribute">justify-content</span>:center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-panel-row</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">  <span class="attribute">padding-top</span>: <span class="number">10</span>rpx;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-panel-row-last</span>&#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: space-between;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">0</span> <span class="number">35</span>rpx;</span><br><span class="line">  <span class="attribute">padding-top</span>: <span class="number">10</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-panel-row-button</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">  <span class="attribute">margin</span>: <span class="number">5</span>rpx;</span><br><span class="line">  <span class="attribute">padding</span>: <span class="number">5</span>rpx;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">63</span>rpx;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">84</span>rpx;</span><br><span class="line">  <span class="attribute">text-align</span>: center;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">86</span>rpx;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">46</span>rpx;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#FFFFFF</span>;</span><br><span class="line">  <span class="attribute">box-shadow</span>: <span class="number">0</span> <span class="number">2</span>rpx <span class="number">0</span> <span class="number">0</span> <span class="built_in">rgba</span>(0,0,0,0.35);</span><br><span class="line">  <span class="attribute">border-radius</span>: <span class="number">10</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-panel-row-button-last</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">85</span>rpx;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">84</span>rpx;</span><br><span class="line">  <span class="attribute">line-height</span>: <span class="number">86</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-hover</span><span class="selector-pseudo">:active</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#ccc</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-panel-row-button-img</span> &#123;</span><br><span class="line">  <span class="attribute">display</span>: flex;</span><br><span class="line">  <span class="attribute">justify-content</span>: center;</span><br><span class="line">  <span class="attribute">align-items</span>: center;</span><br><span class="line">  <span class="attribute">background</span>: <span class="built_in">rgba</span>(171,179,189,0.50);</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-en-button-delete</span> &#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">46</span>rpx;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">34</span>rpx;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-panel-row-button-img</span><span class="selector-pseudo">:active</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-panel-ok</span> &#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#4287FF</span>;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">180</span>rpx;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">84</span>rpx;</span><br><span class="line">  <span class="attribute">font-family</span>: <span class="string">'PingFangSC-Medium'</span>;</span><br><span class="line">  <span class="attribute">font-size</span>: <span class="number">32</span>rpx;</span><br><span class="line">  <span class="attribute">color</span>: <span class="number">#fff</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.vehicle-panel-ok</span><span class="selector-pseudo">:active</span>&#123;</span><br><span class="line">  <span class="attribute">background-color</span>: <span class="number">#4B71E6</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="selector-class">.adaptive</span>&#123;</span><br><span class="line">  <span class="attribute">width</span>: <span class="number">750</span>rpx;</span><br><span class="line">  <span class="attribute">height</span>: <span class="number">60</span>rpx;</span><br><span class="line">  <span class="attribute">background</span>: <span class="number">#D2D5DB</span>;</span><br><span class="line">  <span class="attribute">position</span>: absolute;</span><br><span class="line">  <span class="attribute">z-index</span>: <span class="number">999</span>;</span><br><span class="line">  <span class="attribute">left</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">bottom</span>: <span class="number">0</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/小程序/" rel="tag"># 小程序</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/03/06/JsMonitor/" rel="next" title="js单例模式实现与页面之间的监听通知">
+                <i class="fa fa-chevron-left"></i> js单例模式实现与页面之间的监听通知
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/03/20/ReactTrait/" rel="prev" title="React  和  Vue的特点">
+                React  和  Vue的特点 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="http://m.qpic.cn/psb?/V10t2SrF1TPIh6/unFC4BEVb7WEFB5sxTUqoGZgnZt5XnmUo.qOnrS.mH4!/b/dL8AAAAAAAAA&bo=WgBaAAAAAAARBzA!&rf=viewer_4" alt="Shallow Lan">
+            
+              <p class="site-author-name" itemprop="name">Shallow Lan</p>
+              <p class="site-description motion-element" itemprop="description">何明暄的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">10</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">6</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#自定义键盘功能"><span class="nav-number">1.</span> <span class="nav-text">自定义键盘功能</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#适用场景"><span class="nav-number">2.</span> <span class="nav-text">适用场景</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现原理"><span class="nav-number">3.</span> <span class="nav-text">实现原理</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#代码分享"><span class="nav-number">4.</span> <span class="nav-text">代码分享</span></a></li></ol><li class="nav-item nav-level-3"><a class="nav-link" href="#代码（需要代码请去github地址）"><span class="nav-number"></span> <span class="nav-text">代码（需要代码请去github地址）:</span></a></li></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shallow Lan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由ShallowLan强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
