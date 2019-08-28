@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head><meta name="generator" content="Hexo 3.8.0">
+  <meta charset="UTF-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform">
+<meta http-equiv="Cache-Control" content="no-siteapp">
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css">
+
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css">
+
+<link href="/css/main.css?v=5.1.4" rel="stylesheet" type="text/css">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png?v=5.1.4">
+
+
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png?v=5.1.4">
+
+
+  <link rel="mask-icon" href="/images/logo.svg?v=5.1.4" color="#222">
+
+
+
+
+
+  <meta name="keywords" content="react,">
+
+
+
+
+
+
+
+
+
+
+<meta name="description" content="axiosreact使用axios,首先下载123456789$npm add axiosjsimport axios from &amp;apos;axios&amp;apos;// 发送componentDidMount() &amp;#123;    axios.get(&amp;apos;www.baidu.com&amp;apos;)        .then(() =&amp;gt; &amp;#123;&amp;#125;)        .ca">
+<meta name="keywords" content="react">
+<meta property="og:type" content="article">
+<meta property="og:title" content="React笔记 （八）axios以及动画react-transition-group的使用">
+<meta property="og:url" content="http://yoursite.com/2019/05/30/ReactB8/index.html">
+<meta property="og:site_name" content="ShallowLan Blog">
+<meta property="og:description" content="axiosreact使用axios,首先下载123456789$npm add axiosjsimport axios from &amp;apos;axios&amp;apos;// 发送componentDidMount() &amp;#123;    axios.get(&amp;apos;www.baidu.com&amp;apos;)        .then(() =&amp;gt; &amp;#123;&amp;#125;)        .ca">
+<meta property="og:locale" content="zh-Hans">
+<meta property="og:updated_time" content="2019-08-28T05:57:58.071Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="React笔记 （八）axios以及动画react-transition-group的使用">
+<meta name="twitter:description" content="axiosreact使用axios,首先下载123456789$npm add axiosjsimport axios from &amp;apos;axios&amp;apos;// 发送componentDidMount() &amp;#123;    axios.get(&amp;apos;www.baidu.com&amp;apos;)        .then(() =&amp;gt; &amp;#123;&amp;#125;)        .ca">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    version: '5.1.4',
+    sidebar: {"position":"left","display":"post","offset":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: {"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"slideDownIn","post_body":"slideDownIn","coll_header":"slideLeftIn","sidebar":"slideUpIn"}},
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2019/05/30/ReactB8/">
+
+
+
+
+
+  <title>React笔记 （八）axios以及动画react-transition-group的使用 | ShallowLan Blog</title>
+  
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/" class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">ShallowLan Blog</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Love your life</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br>
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br>
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br>
+            
+            简介
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/05/30/ReactB8/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Shallow Lan">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="https://facepic.qidian.com/qd_face/349573/a403400814/0">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="ShallowLan Blog">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">React笔记 （八）axios以及动画react-transition-group的使用</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2019-05-30T14:38:28+08:00">
+                2019-05-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="axios"><a href="#axios" class="headerlink" title="axios"></a>axios</h2><p>react使用axios,首先下载<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">$npm add axios</span><br><span class="line">js</span><br><span class="line">import axios from &apos;axios&apos;</span><br><span class="line">// 发送</span><br><span class="line">componentDidMount() &#123;</span><br><span class="line">    axios.get(&apos;www.baidu.com&apos;)</span><br><span class="line">        .then(() =&gt; &#123;&#125;)</span><br><span class="line">        .catch(() =&gt; &#123;&#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<h2 id="react-transition-group"><a href="#react-transition-group" class="headerlink" title="react-transition-group"></a>react-transition-group</h2><h3 id="CSSTransition"><a href="#CSSTransition" class="headerlink" title="CSSTransition"></a>CSSTransition</h3><p>React用于给元素加动画，其原理就是动态的给元素加上Class，从而加上动画。<br>属性：<br>in={inProp}  决定元素的显示和隐藏<br>timeout={200}  执行动画所用的时间<br>classNames=”my-node”  class名字用于加操作元素的css<br>css：<br><figure class="highlight css"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br></pre></td><td class="code"><pre><span class="line">&lt;!<span class="selector-tag">--</span>入场前<span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-class">.my-node-enter</span> &#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span>入场后<span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-class">.my-node-enter-active</span> &#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">  <span class="attribute">transition</span>: opacity <span class="number">200ms</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span>退场前<span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-class">.my-node-exit</span> &#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">1</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span>退场后<span class="selector-tag">--</span>&gt;</span><br><span class="line"><span class="selector-class">.my-node-exit-active</span> &#123;</span><br><span class="line">  <span class="attribute">opacity</span>: <span class="number">0</span>;</span><br><span class="line">  <span class="attribute">transition</span>: opacity <span class="number">200ms</span>;</span><br><span class="line">&#125;</span><br><span class="line">&lt;!<span class="selector-tag">--</span>全部<span class="selector-tag">class--</span>&gt;</span><br><span class="line">classNames=&#123;&#123;</span><br><span class="line"> appear: 'my-appear',</span><br><span class="line"> appearActive: 'my-active-appear',</span><br><span class="line"> appearDone: 'my-done-appear',</span><br><span class="line"> enter: 'my-enter',</span><br><span class="line"> enterActive: 'my-active-enter',</span><br><span class="line"> enterDone: 'my-done-enter',</span><br><span class="line"> exit: 'my-exit',</span><br><span class="line"> exitActive: 'my-active-exit',</span><br><span class="line"> exitDone: 'my-done-exit',</span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure></p>
+<p>js钩子函数</p>
+<h4 id="onEnter"><a href="#onEnter" class="headerlink" title="onEnter"></a>onEnter</h4><p>应用<transition>‘enter’或’appear’类后立即触发回调。</transition></p>
+<h4 id="onEntering"><a href="#onEntering" class="headerlink" title="onEntering"></a>onEntering</h4><p>一个<transition>回调“输入激活状态”或“显示激活状态”类应用后，立即解雇。</transition></p>
+<h4 id="onEntered"><a href="#onEntered" class="headerlink" title="onEntered"></a>onEntered</h4><p>删除<transition> ‘enter’或’appear’类后立即触发的回调，并将该类添加到DOM节点。done</transition></p>
+<h4 id="onExit"><a href="#onExit" class="headerlink" title="onExit"></a>onExit</h4><p>一个<transition>应用了“退出”下课后回调立即被解雇。</transition></p>
+<h4 id="onExiting"><a href="#onExiting" class="headerlink" title="onExiting"></a>onExiting</h4><p>一个<transition>“退出激活状态”的应用回调后立即触发。</transition></p>
+<h4 id="onExited"><a href="#onExited" class="headerlink" title="onExited"></a>onExited</h4><p>一个<transition>“退出”类后立即触发回调被删除和exit-done类添加到DOM节点。</transition></p>
+<h3 id="TransitionGroup"><a href="#TransitionGroup" class="headerlink" title="TransitionGroup"></a>TransitionGroup</h3><p>TransitionGroup 是用来控制多个元素的动画用的，比如一个列表。他的作用就是省去CSSTransition里in属性的使用，需两者结合使用使用方法如下：<br><figure class="highlight js"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">import</span> &#123;CSSTransition, TransitionGroup&#125; <span class="keyword">from</span> <span class="string">'react-transition-group'</span>;</span><br><span class="line">&lt;TransitionGroup className=<span class="string">"todo-list"</span>&gt;</span><br><span class="line">  &#123;<span class="keyword">this</span>.state.list.map(<span class="function">(<span class="params">item,index</span>) =&gt;</span> &#123;</span><br><span class="line">    <span class="keyword">return</span> (</span><br><span class="line">      &lt;CSSTransition</span><br><span class="line">        key=&#123;item&#125;</span><br><span class="line">        timeout=&#123;<span class="number">800</span>&#125;</span><br><span class="line">        classNames=<span class="string">"alert"</span></span><br><span class="line">        unmountOnExit</span><br><span class="line">        appear=&#123;<span class="literal">true</span>&#125;</span><br><span class="line">        onEnter=&#123;() =&gt; setShowButton(<span class="literal">false</span>)&#125;</span><br><span class="line">      &gt;</span><br><span class="line">        &lt;TodoItem content=&#123;item&#125; itemIndex=&#123;index&#125; listClose=&#123;<span class="keyword">this</span>.listClose.bind(<span class="keyword">this</span>)&#125;&gt;&lt;/TodoItem&gt;</span><br><span class="line">      &lt;<span class="regexp">/CSSTransition&gt;</span></span><br><span class="line"><span class="regexp">    )</span></span><br><span class="line"><span class="regexp">  &#125;)&#125;</span></span><br><span class="line"><span class="regexp">&lt;/</span>TransitionGroup&gt;</span><br></pre></td></tr></table></figure></p>
+<blockquote>
+<p>想实现更基础的效果可以使用Transition</p>
+</blockquote>
+<p><a href="https://reactcommunity.org/react-transition-group/" target="_blank" rel="noopener">React Transition Group官方文档</a></p>
+
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/react/" rel="tag"># react</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2019/05/23/ReactB7/" rel="next" title="React笔记 （七）React生命周期的概念和使用">
+                <i class="fa fa-chevron-left"></i> React笔记 （七）React生命周期的概念和使用
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2019/06/04/ReactB9/" rel="prev" title="React笔记 （九）Redux的工作原理，使用总结及最佳写法">
+                React笔记 （九）Redux的工作原理，使用总结及最佳写法 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+
+  
+
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview-wrap sidebar-panel">
+        <div class="site-overview">
+          <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+            
+              <img class="site-author-image" itemprop="image" src="https://facepic.qidian.com/qd_face/349573/a403400814/0" alt="Shallow Lan">
+            
+              <p class="site-author-name" itemprop="name">Shallow Lan</p>
+              <p class="site-description motion-element" itemprop="description">何明暄的个人博客</p>
+          </div>
+
+          <nav class="site-state motion-element">
+
+            
+              <div class="site-state-item site-state-posts">
+              
+                <a href="/archives/">
+              
+                  <span class="site-state-item-count">21</span>
+                  <span class="site-state-item-name">日志</span>
+                </a>
+              </div>
+            
+
+            
+
+            
+              
+              
+              <div class="site-state-item site-state-tags">
+                
+                  <span class="site-state-item-count">5</span>
+                  <span class="site-state-item-name">标签</span>
+                
+              </div>
+            
+
+          </nav>
+
+          
+
+          
+
+          
+          
+
+          
+          
+
+          
+
+        </div>
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#axios"><span class="nav-number">1.</span> <span class="nav-text">axios</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#react-transition-group"><span class="nav-number">2.</span> <span class="nav-text">react-transition-group</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#CSSTransition"><span class="nav-number">2.1.</span> <span class="nav-text">CSSTransition</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#onEnter"><span class="nav-number">2.1.1.</span> <span class="nav-text">onEnter</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onEntering"><span class="nav-number">2.1.2.</span> <span class="nav-text">onEntering</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onEntered"><span class="nav-number">2.1.3.</span> <span class="nav-text">onEntered</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onExit"><span class="nav-number">2.1.4.</span> <span class="nav-text">onExit</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onExiting"><span class="nav-number">2.1.5.</span> <span class="nav-text">onExiting</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#onExited"><span class="nav-number">2.1.6.</span> <span class="nav-text">onExited</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#TransitionGroup"><span class="nav-number">2.2.</span> <span class="nav-text">TransitionGroup</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright">&copy; <span itemprop="copyrightYear">2019</span>
+  <span class="with-love">
+    <i class="fa fa-user"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Shallow Lan</span>
+
+  
+</div>
+
+
+  <div class="powered-by">由ShallowLan强力驱动</div>
+
+
+
+  <span class="post-meta-divider">|</span>
+
+
+
+  <div class="theme-info">Theme &mdash; <a class="theme-link" target="_blank" href="https://github.com/iissnan/hexo-theme-next">NexT.Pisces</a> v5.1.4</div>
+
+
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+  
+
+  
+  
+    <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+  
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.4"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.4"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.4"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.4"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.4"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
